@@ -7,6 +7,8 @@ public class ray : MonoBehaviour {
 	// Use this for initialization
 	private RaycastHit hit;
 	private float index = 0;
+	public float dechet = 0;
+	public float tree = 0;
 	void Start () {
 		
 	}
@@ -18,12 +20,20 @@ public class ray : MonoBehaviour {
 		if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask)) {
 			Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
 			Debug.Log("Did it");
-			if (hit.distance < 5) {
-				if (Input.GetKey(KeyCode.E))
+			if (hit.distance < 6) {
+				if (Input.GetKey(KeyCode.E) && hit.transform.gameObject.CompareTag("Collectable")) {
 					index++;
 				if (index >= 50) {
 					Destroy(hit.transform.gameObject);
 					index = 0;
+					dechet = dechet + 3;
+				}
+			}
+			if (Input.GetKey(KeyCode.E) && hit.transform.gameObject.gameObject.CompareTag("Recycler"))
+				index++;
+				while (dechet != 0 && index >= 50) {
+					dechet = dechet - 3;
+					tree++;
 				}
 			}
 		}
